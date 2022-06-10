@@ -50,7 +50,7 @@ fn calculation_test() {
 
     fn add_calc() -> u32 {
         let first_number: u32 = rand::thread_rng().gen_range(1..101);
-        let second_number: u32 = rand::thread_rng().gen_range(1..101);
+        let second_number: u32 = rand::thread_rng().gen_range(1..first_number);
 
         println!("{} + {}", first_number, second_number);
 
@@ -86,16 +86,16 @@ fn calculation_test() {
     }
 
     std::process::Command::new("clear").status().unwrap();
-    println!("\n\n\n\n\n");
+    println!("\n\n\n");
 
     let first_operation = new_calc();
-    sleep(Duration::from_secs(4));
+    sleep(Duration::from_secs(3));
 
     std::process::Command::new("clear").status().unwrap();
-    println!("\n\n\n\n\n");
+    println!("\n\n\n");
 
     let second_operation = new_calc();
-    sleep(Duration::from_secs(4));
+    sleep(Duration::from_secs(3));
 
     std::process::Command::new("clear").status().unwrap();
     println!("\n\n\n");
