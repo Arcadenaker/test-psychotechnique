@@ -28,7 +28,7 @@ fn begin() {
             println!("\n----Welcome in the calculation test----");
             println!("You have to calculate the 2 calculations that will appear on the screen");
             println!("At the end you should state which is higher (S: first | I: second) or if they are equal (E)");
-            sleep(Duration::from_secs(7));
+            sleep(Duration::from_secs(6));
 
             calculation_test()
         }
@@ -38,46 +38,63 @@ fn begin() {
 
 fn calculation_test() {
     fn new_calc() -> u32 {
+        //Number to make the exercice harder (answers closer)
+        let selected_number: u32 = rand::thread_rng().gen_range(20..80);
+
         let sign: u32 = rand::thread_rng().gen_range(1..5);
         match sign {
-            1 => add_calc(),
-            2 => sub_calc(),
-            3 => mult_calc(),
-            4 => div_calc(),
+            1 => add_calc(selected_number),
+            2 => sub_calc(selected_number),
+            3 => mult_calc(selected_number),
+            4 => div_calc(selected_number),
             _ => 0,
         }
     }
 
-    fn add_calc() -> u32 {
-        let first_number: u32 = rand::thread_rng().gen_range(1..101);
-        let second_number: u32 = rand::thread_rng().gen_range(1..first_number);
+    fn add_calc(salt: u32) -> u32 {
+        let first_number: u32 = salt + rand::thread_rng().gen_range(1..18);
+        let second_number: u32 = rand::thread_rng().gen_range(2..10);
 
         println!("{} + {}", first_number, second_number);
 
         return first_number + second_number;
     }
 
-    fn sub_calc() -> u32 {
-        let first_number: u32 = rand::thread_rng().gen_range(40..101);
-        let second_number: u32 = rand::thread_rng().gen_range(1..first_number);
+    fn sub_calc(salt: u32) -> u32 {
+        let first_number: u32 = salt + rand::thread_rng().gen_range(1..18);
+        let second_number: u32 = rand::thread_rng().gen_range(5..19);
 
         println!("{} - {}", first_number, second_number);
 
         return first_number - second_number;
     }
 
-    fn mult_calc() -> u32 {
-        let first_number: u32 = rand::thread_rng().gen_range(1..11);
-        let second_number: u32 = rand::thread_rng().gen_range(1..11);
+    fn mult_calc(salt: u32) -> u32 {
+        let mut range_salted_1 = 4;
+        let mut range_salted_2 = 2;
+        if salt > 40 {
+            range_salted_1 = 8;
+            range_salted_2 = 6;
+        }
+
+        let first_number: u32 = rand::thread_rng().gen_range(range_salted_1..11);
+        let second_number: u32 = rand::thread_rng().gen_range(range_salted_2..11);
 
         println!("{} X {}", first_number, second_number);
 
         return first_number * second_number;
     }
 
-    fn div_calc() -> u32 {
-        let diviseur: u32 = rand::thread_rng().gen_range(1..11);
-        let quotient: u32 = rand::thread_rng().gen_range(1..11);
+    fn div_calc(salt: u32) -> u32 {
+        let mut range_salted_1 = 4;
+        let mut range_salted_2 = 2;
+        if salt > 40 {
+            range_salted_1 = 8;
+            range_salted_2 = 6;
+        }
+        
+        let diviseur: u32 = rand::thread_rng().gen_range(range_salted_1..11);
+        let quotient: u32 = rand::thread_rng().gen_range(range_salted_2..11);
         let dividende: u32 = diviseur * quotient;
 
         println!("{} / {}", dividende, diviseur);
@@ -89,13 +106,13 @@ fn calculation_test() {
     println!("\n\n\n");
 
     let first_operation = new_calc();
-    sleep(Duration::from_secs(3));
+    sleep(Duration::from_secs(4));
 
     std::process::Command::new("clear").status().unwrap();
     println!("\n\n\n");
 
     let second_operation = new_calc();
-    sleep(Duration::from_secs(3));
+    sleep(Duration::from_secs(4));
 
     std::process::Command::new("clear").status().unwrap();
     println!("\n\n\n");
