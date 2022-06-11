@@ -1,5 +1,5 @@
-#Test psychotechnique de l'armée belge
+# Test psychotechnique
 
-Ce repo en développement est un projet qui permet de s'entrainer pour les test psychotechniques de m'armée belge
+Ce projet écrit en go permet de s'entrainer pour différents test psychotechniques
 
-![alt text](https://fr.wikipedia.org/wiki/Forces_arm%C3%A9es_belges)
+Pour le moment, seul le calcul mental est disponible
