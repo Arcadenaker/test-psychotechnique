@@ -146,7 +146,7 @@ pub fn calculation_test() {
             Ordering::Equal => String::from("E"),
         };
 
-        if answer_usr.trim() == answer {
+        if answer_usr.trim().to_uppercase() == answer {
             right_answer += 1;
         } else {
             wrong_answer += 1;
