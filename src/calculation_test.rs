@@ -15,7 +15,7 @@ pub fn calculation_test() {
     }
 
     fn add_calc(salt: u32) -> u32 {
-        let answer = salt + rand::thread_rng().gen_range(0..6);
+        let answer = salt + rand::thread_rng().gen_range(0..5);
         let second_number: u32 = answer - rand::thread_rng().gen_range(6..13);
         let first_number: u32 = answer - second_number;
 
@@ -25,8 +25,8 @@ pub fn calculation_test() {
     }
 
     fn sub_calc(salt: u32) -> u32 {
-        let answer = salt + rand::thread_rng().gen_range(0..6);
-        let first_number: u32 = answer + rand::thread_rng().gen_range(5..13);
+        let answer = salt + rand::thread_rng().gen_range(0..5);
+        let first_number: u32 = answer + rand::thread_rng().gen_range(5..8);
         let second_number: u32 = first_number - answer;
 
         println!("{} - {}", first_number, second_number);
@@ -40,18 +40,22 @@ pub fn calculation_test() {
         let mut facteur_2 = answer / facteur_1;
 
         let backup_facteur_1 = facteur_1;
+        let backup_answer = answer;
+        let backup_facteur_2 = facteur_2;
 
         //Calculer 2 facteurs de la multiplication en dessous de 10
         if facteur_2 > 10 {
-            facteur_1 = rand::thread_rng().gen_range(2..4);
+            facteur_1 = rand::thread_rng().gen_range(2..5);
             while facteur_2 > 10 {
-                facteur_2 = answer / facteur_1;
                 facteur_1 += 1;
                 answer = find_division_modulo_null(facteur_1, salt);
+                facteur_2 = answer / facteur_1;
 
                 //Pour éviter un calcul infini
-                if facteur_1 > 9 {
+                if facteur_1 > 10 {
                     facteur_1 = backup_facteur_1;
+                    facteur_2 = backup_facteur_2;
+                    answer = backup_answer;
                     break;
                 }
             }

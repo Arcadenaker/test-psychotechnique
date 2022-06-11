@@ -7,7 +7,7 @@ fn main() {
 }
 
 fn begin() {
-    println!("\n-----------Welcome to the psychotechnic test-----------");
+    println!("\n----------- Welcome to the psychotechnic test -----------\n");
     println!("1) Start the mental calculation test");
 
     let mut number_to_start: String = String::new();
@@ -25,7 +25,7 @@ fn begin() {
     match number_to_start {
         1 => {
             std::process::Command::new("clear").status().unwrap();
-            println!("\n--------------Welcome in the calculation test--------------\n");
+            println!("\n-------------- Welcome in the calculation test --------------\n");
             println!("You have to calculate the 2 calculations that will appear on the screen");
             println!("At the end you should state which is HIGHER (S: first | I: second) or if they are equal (E)");
             println!("The DURATION of the test is 90s");
