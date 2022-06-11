@@ -93,11 +93,11 @@ fn calculation_test() {
     }
 
     fn div_calc(salt: u32) -> u32 {
-        let answer = salt + rand::thread_rng().gen_range(0..5);
         let diviseur = rand::thread_rng().gen_range(3..10);
+        let answer = find_division_modulo_null(diviseur, salt);
         let dividende = answer * diviseur;
 
-        if dividende > 100 {
+        if diviseur > 10 || answer > 10 {
             return mult_calc(salt);
         }
 
@@ -129,7 +129,7 @@ fn calculation_test() {
         advancement_of_operation += 1;
 
         //Number to make the exercice harder (answers closer)
-        let selected_number: u32 = rand::thread_rng().gen_range(10..90);
+        let selected_number: u32 = rand::thread_rng().gen_range(8..90);
 
         std::process::Command::new("clear").status().unwrap();
         println!("\n\n\n");
