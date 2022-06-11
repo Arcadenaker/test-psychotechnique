@@ -35,7 +35,7 @@ pub fn calculation_test() {
     }
 
     fn mult_calc(salt: u32) -> u32 {
-        let mut facteur_1 = rand::thread_rng().gen_range(4..10);
+        let mut facteur_1 = rand::thread_rng().gen_range(4..9);
         let mut answer = find_division_modulo_null(facteur_1, salt);
         let mut facteur_2 = answer / facteur_1;
 
@@ -105,27 +105,27 @@ pub fn calculation_test() {
     let mut right_answer = 0;
     let mut wrong_answer = 0;
 
-    let mut advancement_of_operation = 0;
+    let mut level = 0;
 
     loop {
-        advancement_of_operation += 1;
+        level += 1;
 
         //Number to make the exercice harder (answers closer)
-        let selected_number: u32 = rand::thread_rng().gen_range(15..89);
+        let base: u32 = rand::thread_rng().gen_range(15..89);
 
         std::process::Command::new("clear").status().unwrap();
         println!("\n\n\n");
 
-        println!("\t   #{}", advancement_of_operation);
+        println!("\t   #{}", level);
         print!("[1]      ");
-        let first_operation = new_calc(selected_number);
+        let first_operation = new_calc(base);
         pause_console!("Press enter...");
 
         std::process::Command::new("clear").status().unwrap();
         println!("\n\n\n");
 
         print!("\n[2]      ");
-        let second_operation = new_calc(selected_number);
+        let second_operation = new_calc(base);
         pause_console!("Press enter...");
 
         std::process::Command::new("clear").status().unwrap();
