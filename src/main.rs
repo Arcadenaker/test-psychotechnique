@@ -1,7 +1,6 @@
 use pause_console::*;
-use std::{cmp::Ordering, io, io::Write, thread::sleep, time::Duration, time::Instant};
-
 use rand::Rng;
+use std::{cmp::Ordering, io, io::Write, thread::sleep, time::Duration, time::Instant};
 
 fn main() {
     begin();
@@ -29,7 +28,7 @@ fn begin() {
             println!("\n--------------Welcome in the calculation test--------------\n");
             println!("You have to calculate the 2 calculations that will appear on the screen");
             println!("At the end you should state which is HIGHER (S: first | I: second) or if they are equal (E)");
-            println!("The DURATION of the test is 60s");
+            println!("The DURATION of the test is 90s");
             sleep(Duration::from_secs(6));
 
             calculation_test()
@@ -51,8 +50,8 @@ fn calculation_test() {
     }
 
     fn add_calc(salt: u32) -> u32 {
-        let answer = salt + rand::thread_rng().gen_range(0..5);
-        let second_number: u32 = answer - rand::thread_rng().gen_range(4..10);
+        let answer = salt + rand::thread_rng().gen_range(0..6);
+        let second_number: u32 = answer - rand::thread_rng().gen_range(6..13);
         let first_number: u32 = answer - second_number;
 
         println!("{} + {}", first_number, second_number);
@@ -61,8 +60,8 @@ fn calculation_test() {
     }
 
     fn sub_calc(salt: u32) -> u32 {
-        let answer = salt + rand::thread_rng().gen_range(0..5);
-        let first_number: u32 = answer + rand::thread_rng().gen_range(5..10);
+        let answer = salt + rand::thread_rng().gen_range(0..6);
+        let first_number: u32 = answer + rand::thread_rng().gen_range(5..13);
         let second_number: u32 = first_number - answer;
 
         println!("{} - {}", first_number, second_number);
@@ -79,7 +78,7 @@ fn calculation_test() {
 
         //Calculer 2 facteurs de la multiplication en dessous de 10
         if facteur_2 > 10 {
-            facteur_1 = 2;
+            facteur_1 = rand::thread_rng().gen_range(2..4);
             while facteur_2 > 10 {
                 facteur_2 = answer / facteur_1;
                 facteur_1 += 1;
@@ -148,7 +147,7 @@ fn calculation_test() {
         std::process::Command::new("clear").status().unwrap();
         println!("\n\n\n");
 
-        println!("\t-- {} --", advancement_of_operation);
+        println!("\t   #{}", advancement_of_operation);
         print!("[1]      ");
         let first_operation = new_calc(selected_number);
         pause_console!("Press enter...");
@@ -184,8 +183,9 @@ fn calculation_test() {
             wrong_answer += 1;
         }
 
-        if start.elapsed() > Duration::from_secs(60) {
-            println!("\n --- Vous avez fini le test --- \n");
+        if start.elapsed() > Duration::from_secs(90) {
+            std::process::Command::new("clear").status().unwrap();
+            println!("\n\n\n --- Vous avez fini le test --- \n");
             println!("Bonnes réponses: {}", right_answer);
             println!("Mauvaises réponses: {}", wrong_answer);
             break;
