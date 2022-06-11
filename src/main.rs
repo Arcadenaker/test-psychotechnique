@@ -1,5 +1,5 @@
 use pause_console::*;
-use std::{cmp::Ordering, io, io::Write, thread::sleep, time::Duration};
+use std::{cmp::Ordering, io, io::Write, thread::sleep, time::Duration, time::Instant};
 
 use rand::Rng;
 
@@ -29,6 +29,7 @@ fn begin() {
             println!("\n--------------Welcome in the calculation test--------------\n");
             println!("You have to calculate the 2 calculations that will appear on the screen");
             println!("At the end you should state which is HIGHER (S: first | I: second) or if they are equal (E)");
+            println!("The DURATION of the test is 60s");
             sleep(Duration::from_secs(6));
 
             calculation_test()
@@ -38,9 +39,6 @@ fn begin() {
 }
 
 fn calculation_test() {
-    //Number to make the exercice harder (answers closer)
-    let selected_number: u32 = rand::thread_rng().gen_range(10..90);
-
     fn new_calc(n: u32) -> u32 {
         let sign: u32 = rand::thread_rng().gen_range(1..5);
         match sign {
@@ -120,47 +118,65 @@ fn calculation_test() {
         return 0;
     }
 
+    let start = Instant::now();
 
+    let mut right_answer = 0;
+    let mut wrong_answer = 0;
 
-    std::process::Command::new("clear").status().unwrap();
-    println!("\n\n\n");
+    let mut advancement_of_operation = 0;
 
-    print!("[1]      ");
-    let first_operation = new_calc(selected_number);
-    pause_console!("Press enter...");
+    loop {
+        advancement_of_operation += 1;
 
-    std::process::Command::new("clear").status().unwrap();
-    println!("\n\n\n");
+        //Number to make the exercice harder (answers closer)
+        let selected_number: u32 = rand::thread_rng().gen_range(10..90);
 
-    print!("[2]      ");
-    let second_operation = new_calc(selected_number);
-    pause_console!("Press enter...");
+        std::process::Command::new("clear").status().unwrap();
+        println!("\n\n\n");
 
-    std::process::Command::new("clear").status().unwrap();
-    println!("\n\n\n");
+        println!("\t-- {} --", advancement_of_operation);
+        print!("[1]      ");
+        let first_operation = new_calc(selected_number);
+        pause_console!("Press enter...");
 
-    let mut answer_usr = String::new();
+        std::process::Command::new("clear").status().unwrap();
+        println!("\n\n\n");
 
-    println!("Which one is higher? (S, I or E)?");
-    print!("> ");
-    io::stdout().flush().expect("Unable to flush");
-    io::stdin()
-        .read_line(&mut answer_usr)
-        .expect("Unable to read user input");
+        print!("\n[2]      ");
+        let second_operation = new_calc(selected_number);
+        pause_console!("Press enter...");
 
-    let answer = match first_operation.cmp(&second_operation) {
-        Ordering::Less => String::from("I"),
-        Ordering::Greater => String::from("S"),
-        Ordering::Equal => String::from("E"),
-    };
+        std::process::Command::new("clear").status().unwrap();
+        println!("\n\n\n");
 
-    if answer_usr.trim() == answer {
-        println!("Bravo, try the next one");
-        sleep(Duration::from_secs(1));
-    } else {
-        println!("This is wrong, here is the right answer: {}", answer);
-        sleep(Duration::from_secs(1));
+        let mut answer_usr = String::new();
+
+        println!("Which one is higher? (S, I or E)?");
+        print!("> ");
+        io::stdout().flush().expect("Unable to flush");
+        io::stdin()
+            .read_line(&mut answer_usr)
+            .expect("Unable to read user input");
+
+        let answer = match first_operation.cmp(&second_operation) {
+            Ordering::Less => String::from("I"),
+            Ordering::Greater => String::from("S"),
+            Ordering::Equal => String::from("E"),
+        };
+
+        if answer_usr.trim() == answer {
+            right_answer += 1;
+        } else {
+            wrong_answer += 1;
+        }
+
+        if start.elapsed() > Duration::from_secs(60) {
+            println!("\n --- Vous avez fini le test --- \n");
+            println!("Bonnes réponses: {}", right_answer);
+            println!("Mauvaises réponses: {}", wrong_answer);
+            break;
+        }
     }
 
-    calculation_test();
+    begin();
 }
