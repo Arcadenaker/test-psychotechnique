@@ -84,6 +84,7 @@ fn calculation_test() {
             //Pour éviter un bug de leak
             if facteur_1 > 9 {
                 facteur_1 = backup_facteur_1;
+                continue;
             }
         }
 
@@ -108,6 +109,10 @@ fn calculation_test() {
         let answer = salt + rand::thread_rng().gen_range(0..5);
         let diviseur = rand::thread_rng().gen_range(3..10);
         let dividende = answer * diviseur;
+
+        if dividende > 100 {
+            mult_calc(salt);
+        }
 
         println!("{} / {}", dividende, diviseur);
 
