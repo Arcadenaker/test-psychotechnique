@@ -29,7 +29,7 @@ fn begin() {
             println!("\n----Welcome in the calculation test----");
             println!("You have to calculate the 2 calculations that will appear on the screen");
             println!("At the end you should state which is higher (S: first | I: second) or if they are equal (E)");
-            //sleep(Duration::from_secs(6));
+            sleep(Duration::from_secs(6));
 
             calculation_test()
         }
