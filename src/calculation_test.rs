@@ -44,15 +44,15 @@ pub fn calculation_test() {
         let backup_facteur_2 = facteur_2;
 
         //Calculer 2 facteurs de la multiplication en dessous de 10
-        if facteur_2 > 10 {
-            facteur_1 = rand::thread_rng().gen_range(2..5);
-            while facteur_2 > 10 {
+        if facteur_2 > 9 {
+            facteur_1 = rand::thread_rng().gen_range(1..4);
+            while facteur_2 > 9 {
                 facteur_1 += 1;
                 answer = find_division_modulo_null(facteur_1, salt);
                 facteur_2 = answer / facteur_1;
 
                 //Pour éviter un calcul infini
-                if facteur_1 > 10 {
+                if facteur_1 > 9 {
                     facteur_1 = backup_facteur_1;
                     facteur_2 = backup_facteur_2;
                     answer = backup_answer;
@@ -111,7 +111,7 @@ pub fn calculation_test() {
         advancement_of_operation += 1;
 
         //Number to make the exercice harder (answers closer)
-        let selected_number: u32 = rand::thread_rng().gen_range(8..90);
+        let selected_number: u32 = rand::thread_rng().gen_range(15..89);
 
         std::process::Command::new("clear").status().unwrap();
         println!("\n\n\n");
