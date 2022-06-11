@@ -71,19 +71,25 @@ fn calculation_test() {
     }
 
     fn mult_calc(salt: u32) -> u32 {
-        let mut facteur_1 = rand::thread_rng().gen_range(3..9);
+        let mut facteur_1 = rand::thread_rng().gen_range(4..10);
         let mut answer = find_division_modulo_null(facteur_1, salt);
-        let facteur_2 = answer / facteur_1;
+        let mut facteur_2 = answer / facteur_1;
 
         let backup_facteur_1 = facteur_1;
+
         //Calculer 2 facteurs de la multiplication en dessous de 10
-        while facteur_2 > 10 {
-            facteur_1 += 1;
-            answer = find_division_modulo_null(facteur_1, salt);
-            //Pour éviter un calcul infini
-            if facteur_1 > 9 {
-                facteur_1 = backup_facteur_1;
-                break;
+        if facteur_2 > 10 {
+            facteur_1 = 2;
+            while facteur_2 > 10 {
+                facteur_2 = answer / facteur_1;
+                facteur_1 += 1;
+                answer = find_division_modulo_null(facteur_1, salt);
+
+                //Pour éviter un calcul infini
+                if facteur_1 > 9 {
+                    facteur_1 = backup_facteur_1;
+                    break;
+                }
             }
         }
 
@@ -93,19 +99,27 @@ fn calculation_test() {
     }
 
     fn div_calc(salt: u32) -> u32 {
-        let diviseur = rand::thread_rng().gen_range(3..10);
-        let answer = find_division_modulo_null(diviseur, salt);
-        let dividende = answer * diviseur;
+        let mut diviseur = 2;
+        let mut quotient = salt + rand::thread_rng().gen_range(0..3);
+        let mut dividende = quotient * diviseur;
 
-        if diviseur > 10 || answer > 10 {
-            return mult_calc(salt);
+        while dividende > 100 || dividende % diviseur != 0 {
+            diviseur += 1;
+            quotient = find_division_modulo_null(diviseur, salt);
+            dividende = quotient * diviseur;
+            if dividende < 100 {
+                break;
+            }
+            if diviseur > 6 {
+                return mult_calc(salt);
+            }
         }
-
         println!("{} / {}", dividende, diviseur);
 
-        return answer;
+        return quotient;
     }
 
+    //Fonction qui cherche un diviseur modulo 0
     fn find_division_modulo_null(f1: u32, range: u32) -> u32 {
         let possible_range_modulo_null = range + f1;
 
@@ -177,6 +191,4 @@ fn calculation_test() {
             break;
         }
     }
-
-    begin();
 }
