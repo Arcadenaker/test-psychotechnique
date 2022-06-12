@@ -65,7 +65,7 @@ pub fn calculation_test() {
         let mut quotient = salt + rand::thread_rng().gen_range(0..3);
         let mut dividende = quotient * diviseur;
 
-        while dividende > 100 || dividende % diviseur != 0 {
+        while dividende > 100 {
             diviseur += 1;
             quotient = find_division_modulo_null(diviseur, salt);
             dividende = quotient * diviseur;
@@ -94,6 +94,7 @@ pub fn calculation_test() {
         return 0;
     }
 
+    //Démarre le chronomètre
     let start = Instant::now();
 
     let mut right_answer = 0;
