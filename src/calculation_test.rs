@@ -39,24 +39,18 @@ pub fn calculation_test() {
         let mut answer = find_division_modulo_null(facteur_1, salt);
         let mut facteur_2 = answer / facteur_1;
 
-        let backup_facteur_1 = facteur_1;
-        let backup_answer = answer;
-        let backup_facteur_2 = facteur_2;
-
         //Calculer 2 facteurs de la multiplication en dessous de 10
-        if facteur_2 > 9 {
+        if facteur_2 > 12 {
             facteur_1 = rand::thread_rng().gen_range(1..4);
-            while facteur_2 > 9 {
+            while facteur_2 > 12 {
                 facteur_1 += 1;
                 answer = find_division_modulo_null(facteur_1, salt);
                 facteur_2 = answer / facteur_1;
 
-                //Pour éviter un calcul infini
-                if facteur_1 > 9 {
-                    facteur_1 = backup_facteur_1;
-                    facteur_2 = backup_facteur_2;
-                    answer = backup_answer;
-                    break;
+                //Pour éviter un calcul infini si aucun facteurs donnent une réponse proche du
+                //"salt"
+                if facteur_1 > 12 {
+                    add_calc(salt);
                 }
             }
         }
