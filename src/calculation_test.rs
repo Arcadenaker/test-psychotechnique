@@ -198,12 +198,12 @@ pub fn calculation_test() {
             .get_answer()
             .cmp(&second_operation.get_answer())
         {
-            Ordering::Less => String::from("I"),
-            Ordering::Greater => String::from("S"),
-            Ordering::Equal => String::from("E"),
+            Ordering::Less => String::from("i"),
+            Ordering::Greater => String::from("s"),
+            Ordering::Equal => String::from("e"),
         };
 
-        if answer_usr.trim().to_uppercase() == answer {
+        if answer_usr.trim() == answer {
             right_answer += 1;
         } else {
             wrong_answer += 1;
