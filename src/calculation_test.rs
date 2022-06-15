@@ -1,6 +1,7 @@
 use pause_console::*;
 use rand::Rng;
-use std::io::{stdin, stdout, Write};
+use std::io::Write;
+use std::io::{stdin, stdout};
 use std::{cmp::Ordering, io, time::Duration, time::Instant};
 use termion::event::Key;
 use termion::input::TermRead;
@@ -167,12 +168,31 @@ pub fn calculation_test() {
 
         let mut answer_usr = String::new();
 
-        println!("Which one is higher? (S, I or E)?");
+        println!("Which one is higher? (s, i or e)?");
         print!("> ");
+
         io::stdout().flush().expect("Unable to flush");
-        io::stdin()
-            .read_line(&mut answer_usr)
-            .expect("Unable to read user input");
+
+        let mut stdout = stdout().into_raw_mode().unwrap();
+        let stdin = stdin();
+        for c in stdin.keys() {
+            match c.unwrap() {
+                Key::Char('s') => {
+                    answer_usr = String::from("s");
+                    break;
+                }
+                Key::Char('i') => {
+                    answer_usr = String::from("i");
+                    break;
+                }
+                Key::Char('e') => {
+                    answer_usr = String::from("e");
+                    break;
+                }
+                _ => {}
+            }
+            stdout.flush().unwrap();
+        }
 
         let answer = match first_operation
             .get_answer()
@@ -189,11 +209,19 @@ pub fn calculation_test() {
             wrong_answer += 1;
         }
 
-        if start.elapsed() > Duration::from_secs(90) {
-            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 1));
-            println!("\n\n\n --- Vous avez fini le test --- \n");
-            println!("Bonnes réponses: {}", right_answer);
-            println!("Mauvaises réponses: {}", wrong_answer);
+        if start.elapsed() > Duration::from_secs(3) {
+            print!("{}{}", termion::clear::All, termion::cursor::Goto(0, 4));
+            println!("--- Vous avez fini le test ---");
+            println!(
+                "{}Bonnes réponses: {}",
+                termion::cursor::Goto(0, 6),
+                right_answer
+            );
+            println!(
+                "{}Mauvaises réponses: {}",
+                termion::cursor::Goto(0, 7),
+                wrong_answer
+            );
             break;
         }
     }

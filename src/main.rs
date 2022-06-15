@@ -1,5 +1,6 @@
 use std::io::Write;
 use std::{io, thread::sleep, time::Duration};
+
 mod calculation_test;
 
 fn main() {
@@ -24,7 +25,7 @@ fn begin() {
 
     match number_to_start {
         1 => {
-            std::process::Command::new("clear").status().unwrap();
+            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 1));
             println!("\n-------------- Welcome in the calculation test --------------\n");
             println!("You have to calculate the 2 calculations that will appear on the screen");
             println!("At the end you should state which is HIGHER (S: first | I: second) or if they are equal (E)");
