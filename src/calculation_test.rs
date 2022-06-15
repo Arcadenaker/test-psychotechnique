@@ -55,7 +55,7 @@ pub fn calculation_test() {
 
     fn add_calc(salt: u32) -> Calculation {
         let answer = salt + rand::thread_rng().gen_range(0..5);
-        let second_number: u32 = answer - rand::thread_rng().gen_range(6..13);
+        let second_number: u32 = answer - rand::thread_rng().gen_range(5..15);
         let first_number: u32 = answer - second_number;
 
         return Calculation::Addition(first_number, second_number);
@@ -63,7 +63,7 @@ pub fn calculation_test() {
 
     fn sub_calc(salt: u32) -> Calculation {
         let answer = salt + rand::thread_rng().gen_range(0..5);
-        let first_number: u32 = answer + rand::thread_rng().gen_range(5..8);
+        let first_number: u32 = answer + rand::thread_rng().gen_range(5..10);
         let second_number: u32 = first_number - answer;
 
         return Calculation::Substraction(first_number, second_number);
