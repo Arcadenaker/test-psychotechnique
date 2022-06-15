@@ -212,7 +212,7 @@ pub fn calculation_test() {
             wrong_answer += 1;
         }
 
-        if start.elapsed() > Duration::from_secs(5) {
+        if start.elapsed() > Duration::from_secs(90) {
             print!("{}{}", termion::clear::All, termion::cursor::Goto(0, 4));
             println!("--- Vous avez fini le test ---");
             println!(
