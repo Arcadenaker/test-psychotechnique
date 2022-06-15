@@ -2,39 +2,74 @@ use pause_console::*;
 use rand::Rng;
 use std::{cmp::Ordering, io, io::Write, time::Duration, time::Instant};
 
+//Debug is usefull to compare calculations between them (equal, not equal)
+#[derive(Debug)]
+enum Calculation {
+    Addition(u32, u32),
+    Substraction(u32, u32),
+    Division(u32, u32),
+    Multiplication(u32, u32),
+}
+
+impl Calculation {
+    fn show(&self) {
+        match self {
+            Calculation::Addition(a, b) => {
+                println!("{} + {}", a, b)
+            }
+            Calculation::Substraction(a, b) => {
+                println!("{} - {}", a, b)
+            }
+            Calculation::Division(a, b) => {
+                println!("{} / {}", a, b)
+            }
+            Calculation::Multiplication(a, b) => {
+                println!("{} * {}", a, b)
+            }
+        }
+    }
+    fn get_answer(&self) -> u32 {
+        match self {
+            Calculation::Addition(a, b) => a + b,
+            Calculation::Substraction(a, b) => a - b,
+            Calculation::Division(a, b) => a / b,
+            Calculation::Multiplication(a, b) => a * b,
+        }
+    }
+
+    fn equal(&self, other: &Calculation) -> bool {
+        return format!("{:?}", self) == format!("{:?}", other);
+    }
+}
+
 pub fn calculation_test() {
-    fn new_calc(n: u32) -> u32 {
+    fn new_calc(n: u32) -> Calculation {
         let sign: u32 = rand::thread_rng().gen_range(1..5);
         match sign {
             1 => add_calc(n),
             2 => sub_calc(n),
             3 => mult_calc(n),
-            4 => div_calc(n),
-            _ => 0,
+            _ => div_calc(n),
         }
     }
 
-    fn add_calc(salt: u32) -> u32 {
+    fn add_calc(salt: u32) -> Calculation {
         let answer = salt + rand::thread_rng().gen_range(0..5);
         let second_number: u32 = answer - rand::thread_rng().gen_range(6..13);
         let first_number: u32 = answer - second_number;
 
-        println!("{} + {}", first_number, second_number);
-
-        return answer;
+        return Calculation::Addition(first_number, second_number);
     }
 
-    fn sub_calc(salt: u32) -> u32 {
+    fn sub_calc(salt: u32) -> Calculation {
         let answer = salt + rand::thread_rng().gen_range(0..5);
         let first_number: u32 = answer + rand::thread_rng().gen_range(5..8);
         let second_number: u32 = first_number - answer;
 
-        println!("{} - {}", first_number, second_number);
-
-        return answer;
+        return Calculation::Substraction(first_number, second_number);
     }
 
-    fn mult_calc(salt: u32) -> u32 {
+    fn mult_calc(salt: u32) -> Calculation {
         let mut facteur_1 = rand::thread_rng().gen_range(4..9);
         let mut answer = find_division_modulo_null(facteur_1, salt);
         let mut facteur_2 = answer / facteur_1;
@@ -55,12 +90,10 @@ pub fn calculation_test() {
             }
         }
 
-        println!("{} X {}", facteur_1, facteur_2);
-
-        return answer;
+        return Calculation::Multiplication(facteur_1, facteur_2);
     }
 
-    fn div_calc(salt: u32) -> u32 {
+    fn div_calc(salt: u32) -> Calculation {
         let mut diviseur = 2;
         let mut quotient = salt + rand::thread_rng().gen_range(0..3);
         let mut dividende = quotient * diviseur;
@@ -76,9 +109,7 @@ pub fn calculation_test() {
                 return mult_calc(salt);
             }
         }
-        println!("{} / {}", dividende, diviseur);
-
-        return quotient;
+        return Calculation::Division(dividende, diviseur);
     }
 
     //Fonction qui cherche un diviseur modulo 0
@@ -114,13 +145,20 @@ pub fn calculation_test() {
         println!("\t   #{}", level);
         print!("[1]      ");
         let first_operation = new_calc(base);
+        let mut second_operation: Calculation;
+        loop {
+            second_operation = new_calc(base);
+            if !first_operation.equal(&second_operation) {
+                break;
+            }
+        }
+        first_operation.show();
         pause_console!("Press enter...");
-
         std::process::Command::new("clear").status().unwrap();
         println!("\n\n\n");
 
         print!("\n[2]      ");
-        let second_operation = new_calc(base);
+        second_operation.show();
         pause_console!("Press enter...");
 
         std::process::Command::new("clear").status().unwrap();
@@ -135,7 +173,10 @@ pub fn calculation_test() {
             .read_line(&mut answer_usr)
             .expect("Unable to read user input");
 
-        let answer = match first_operation.cmp(&second_operation) {
+        let answer = match first_operation
+            .get_answer()
+            .cmp(&second_operation.get_answer())
+        {
             Ordering::Less => String::from("I"),
             Ordering::Greater => String::from("S"),
             Ordering::Equal => String::from("E"),
