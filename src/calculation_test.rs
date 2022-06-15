@@ -1,6 +1,10 @@
 use pause_console::*;
 use rand::Rng;
-use std::{cmp::Ordering, io, io::Write, time::Duration, time::Instant};
+use std::io::{stdin, stdout, Write};
+use std::{cmp::Ordering, io, time::Duration, time::Instant};
+use termion::event::Key;
+use termion::input::TermRead;
+use termion::raw::IntoRawMode;
 
 //Debug is usefull to compare calculations between them (equal, not equal)
 #[derive(Debug)]
@@ -139,8 +143,7 @@ pub fn calculation_test() {
         //Number to make the exercice harder (answers closer)
         let base: u32 = rand::thread_rng().gen_range(15..89);
 
-        std::process::Command::new("clear").status().unwrap();
-        println!("\n\n\n");
+        print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 7));
 
         println!("\t   #{}", level);
         print!("[1]      ");
@@ -154,15 +157,13 @@ pub fn calculation_test() {
         }
         first_operation.show();
         pause_console!("Press enter...");
-        std::process::Command::new("clear").status().unwrap();
-        println!("\n\n\n");
+        print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 8));
 
-        print!("\n[2]      ");
+        print!("[2]      ");
         second_operation.show();
         pause_console!("Press enter...");
 
-        std::process::Command::new("clear").status().unwrap();
-        println!("\n\n\n");
+        print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 8));
 
         let mut answer_usr = String::new();
 
@@ -189,7 +190,7 @@ pub fn calculation_test() {
         }
 
         if start.elapsed() > Duration::from_secs(90) {
-            std::process::Command::new("clear").status().unwrap();
+            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 1));
             println!("\n\n\n --- Vous avez fini le test --- \n");
             println!("Bonnes réponses: {}", right_answer);
             println!("Mauvaises réponses: {}", wrong_answer);
