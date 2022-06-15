@@ -189,6 +189,9 @@ pub fn calculation_test() {
                     answer_usr = String::from("e");
                     break;
                 }
+                Key::Ctrl('c') => {
+                    return;
+                }
                 _ => {}
             }
             stdout.flush().unwrap();
@@ -198,18 +201,18 @@ pub fn calculation_test() {
             .get_answer()
             .cmp(&second_operation.get_answer())
         {
-            Ordering::Less => String::from("I"),
-            Ordering::Greater => String::from("S"),
-            Ordering::Equal => String::from("E"),
+            Ordering::Less => String::from("i"),
+            Ordering::Greater => String::from("s"),
+            Ordering::Equal => String::from("e"),
         };
 
-        if answer_usr.trim().to_uppercase() == answer {
+        if answer_usr == answer {
             right_answer += 1;
         } else {
             wrong_answer += 1;
         }
 
-        if start.elapsed() > Duration::from_secs(90) {
+        if start.elapsed() > Duration::from_secs(5) {
             print!("{}{}", termion::clear::All, termion::cursor::Goto(0, 4));
             println!("--- Vous avez fini le test ---");
             println!(
