@@ -1,13 +1,10 @@
+use pause_console::*;
+use std::io;
 use std::io::Write;
-use std::{io, thread::sleep, time::Duration};
 
 mod calculation_test;
 
 fn main() {
-    begin();
-}
-
-fn begin() {
     println!("\n----------- Welcome to the psychotechnic test -----------\n");
     println!("1) Start the mental calculation test");
 
@@ -25,15 +22,16 @@ fn begin() {
 
     match number_to_start {
         1 => {
-            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 1));
-            println!("\n-------------- Welcome in the calculation test --------------\n");
-            println!("You have to calculate the 2 calculations that will appear on the screen");
-            println!("At the end you should state which is HIGHER (S: first | I: second) or if they are equal (E)");
-            println!("The DURATION of the test is 90s");
-            sleep(Duration::from_secs(6));
+            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 2));
+            println!("-------------- Welcome in the calculation test --------------\n");
+            println!("A first operation appears. Calculate it and remember the answer.");
+            println!("A second operation is then displayed on ANOTHER screen");
+            println!("On the third and final screen, indicate which of the two solutions is the GREATEST");
+            println!("DURATION: 90s\n");
+            pause_console!("Press enter to start...");
 
             calculation_test::calculation_test();
         }
-        _ => begin(),
+        _ => return,
     };
 }

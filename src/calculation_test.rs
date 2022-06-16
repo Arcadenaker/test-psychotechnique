@@ -213,16 +213,16 @@ pub fn calculation_test() {
         }
 
         if start.elapsed() > Duration::from_secs(90) {
-            print!("{}{}", termion::clear::All, termion::cursor::Goto(0, 4));
+            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 4));
             println!("--- Vous avez fini le test ---");
             println!(
                 "{}Bonnes réponses: {}",
-                termion::cursor::Goto(0, 6),
+                termion::cursor::Goto(1, 6),
                 right_answer
             );
             println!(
                 "{}Mauvaises réponses: {}",
-                termion::cursor::Goto(0, 7),
+                termion::cursor::Goto(1, 7),
                 wrong_answer
             );
             break;
