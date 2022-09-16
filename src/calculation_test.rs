@@ -153,18 +153,18 @@ pub fn calculation_test() {
             }
         }
         first_operation.show();
-        pause_console!("Press enter...");
+        pause_console!("Appuyez sur enter...");
         print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 8));
 
         print!("[2]      ");
         second_operation.show();
-        pause_console!("Press enter...");
+        pause_console!("Appuyez sur enter...");
 
         print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 8));
 
         let mut answer_usr = String::new();
 
-        println!("Which one is higher? (s, i or e)?");
+        println!("Quelle réponse est la plus élevée? (s, i or e)?");
         print!("> ");
 
         io::stdout().flush().expect("Unable to flush");

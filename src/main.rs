@@ -5,8 +5,8 @@ use std::io::Write;
 mod calculation_test;
 
 fn main() {
-    println!("\n----------- Welcome to the psychotechnic test -----------\n");
-    println!("1) Start the mental calculation test");
+    println!("\n----------- Test psychotechnique de l'armée belge -----------\n");
+    println!("1) Commencer le test d'aisance numérique");
 
     let mut number_to_start: String = String::new();
     print!("> ");
@@ -18,17 +18,18 @@ fn main() {
     let number_to_start: u8 = number_to_start
         .trim()
         .parse()
-        .expect("You have to enter a number");
+        .expect("Vous devez rentrer un nombre");
 
     match number_to_start {
         1 => {
             print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 2));
-            println!("-------------- Welcome in the calculation test --------------\n");
-            println!("A first operation appears. Calculate it and remember the answer.");
-            println!("A second operation is then displayed on ANOTHER screen");
-            println!("On the third and final screen, indicate which of the two solutions is the GREATEST");
-            println!("DURATION: 90s\n");
-            pause_console!("Press enter to start...");
+            println!("-------------- Bienvenue dans le test d'aisance numérique --------------\n");
+            println!("Une première opération est présentée. Calculatez mentalement la solution et rentrez-la.");
+            println!("Un deuxième calcul est affiché sur un AUTRE écran.");
+            println!("Et dans le troisième et dernier écran, indiquez laquelle des deux réponses est la plus ÉLEVÉE.");
+            println!("Le premier calcul (S), deuxième calcul (I), les deux réponses sont égales (E)");
+            println!("DURÉE: 90s\n");
+            pause_console!("Appuyez sur entrer pour commencer...");
 
             calculation_test::calculation_test();
         }
