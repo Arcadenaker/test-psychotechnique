@@ -2,8 +2,8 @@ use pause_console::*;
 use rand::Rng;
 use std::{cmp::Ordering,time::Duration, time::Instant};
 use dialoguer::{theme::ColorfulTheme, Select};
-use std::io::{Write, stdout};
-use crossterm::{execute, QueueableCommand, cursor};   
+use std::io::{stdout};
+use crossterm::{execute, cursor, ExecutableCommand};   
 
 //Debug is usefull to compare calculations between them (equal, not equal)
 #[derive(Debug)]
@@ -142,9 +142,9 @@ pub fn calculation_test() {
 
         clearscreen::clear().unwrap();
 
-        execute!(stdout,cursor::MoveTo(15, 10));
+        stdout.execute(cursor::MoveTo(15, 10));
         println!("      #{}", level);
-        execute!(stdout,cursor::MoveTo(15, 11));
+        stdout.execute(cursor::MoveTo(15, 11));
         print!("[1]  ");
         let first_operation = new_calc(base);
         let mut second_operation: Calculation;
@@ -162,23 +162,24 @@ pub fn calculation_test() {
         clearscreen::clear().unwrap();
 
 
-        execute!(stdout,cursor::MoveTo(15, 11));
+        stdout.execute(cursor::MoveTo(15, 11));
         print!("[2]  ");
         second_operation.show();
         pause_console!("Appuyez sur enter...");
 
         clearscreen::clear().unwrap();
 
-        let selections = &[
+        let answers = &[
             "Supérieur",
             "Inférieur",
             "Églale",
         ];
 
-        let selection = Select::with_theme(&ColorfulTheme::default())
+        stdout.execute(cursor::MoveTo(1, 5));
+        let answer_usr = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Quelle est la réponse la plus élevée?")
             .default(0)
-            .items(&selections[..])
+            .items(&answers[..])
             .interact()
             .unwrap();
 
@@ -191,7 +192,7 @@ pub fn calculation_test() {
             Ordering::Equal => String::from("Églale"),
         };
 
-        if selections[selection] == answer {
+        if answers[answer_usr] == answer {
             right_answer += 1;
         } else {
             wrong_answer += 1;
