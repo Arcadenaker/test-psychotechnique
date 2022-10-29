@@ -1,7 +1,5 @@
-# Test psychotechnique
+# Entrainement pour l'épreuve psychotechnique
 
-Ce projet écrit en rust permet de s'entrainer pour différents test psychotechniques
+Ce projet vous permet de vous préparer au mieux aux questions du test psychotechnique de l'armée belge.
 
-Pour le moment, seul le calcul mental est disponible
-
-**Il faut savoir que le programme utilise Termion, donc est compatible LINUX et MACOS uniquement**
+Pour le moment seul le le test d'aisence numérique est disponible.

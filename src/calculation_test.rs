@@ -1,11 +1,9 @@
 use pause_console::*;
 use rand::Rng;
-use std::io::Write;
-use std::io::{stdin, stdout};
-use std::{cmp::Ordering, io, time::Duration, time::Instant};
-use termion::event::Key;
-use termion::input::TermRead;
-use termion::raw::IntoRawMode;
+use std::{cmp::Ordering,time::Duration, time::Instant};
+use dialoguer::{theme::ColorfulTheme, Select};
+use std::io::{Write, stdout};
+use crossterm::{execute, QueueableCommand, cursor};   
 
 //Debug is usefull to compare calculations between them (equal, not equal)
 #[derive(Debug)]
@@ -129,10 +127,12 @@ pub fn calculation_test() {
     //Démarre le chronomètre
     let start = Instant::now();
 
+    let mut level = 0; //Numérote les éxos-
+
     let mut right_answer = 0;
     let mut wrong_answer = 0;
 
-    let mut level = 0;
+    let mut stdout = stdout();
 
     loop {
         level += 1;
@@ -140,85 +140,72 @@ pub fn calculation_test() {
         //Number to make the exercice harder (answers closer)
         let base: u32 = rand::thread_rng().gen_range(15..89);
 
-        print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 7));
+        clearscreen::clear().unwrap();
 
-        println!("\t   #{}", level);
-        print!("[1]      ");
+        execute!(stdout,cursor::MoveTo(15, 10));
+        println!("      #{}", level);
+        execute!(stdout,cursor::MoveTo(15, 11));
+        print!("[1]  ");
         let first_operation = new_calc(base);
         let mut second_operation: Calculation;
+
+        //Permet d'éviter les mêmes calculs
         loop {
             second_operation = new_calc(base);
             if !first_operation.equal(&second_operation) {
                 break;
             }
         }
+
         first_operation.show();
         pause_console!("Appuyez sur enter...");
-        print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 8));
+        clearscreen::clear().unwrap();
 
-        print!("[2]      ");
+
+        execute!(stdout,cursor::MoveTo(15, 11));
+        print!("[2]  ");
         second_operation.show();
         pause_console!("Appuyez sur enter...");
 
-        print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 8));
+        clearscreen::clear().unwrap();
 
-        let mut answer_usr = String::new();
+        let selections = &[
+            "Supérieur",
+            "Inférieur",
+            "Églale",
+        ];
 
-        println!("Quelle réponse est la plus élevée? (s, i or e)?");
-        print!("> ");
-
-        io::stdout().flush().expect("Unable to flush");
-
-        let mut stdout = stdout().into_raw_mode().unwrap();
-        let stdin = stdin();
-        for c in stdin.keys() {
-            match c.unwrap() {
-                Key::Char('s') => {
-                    answer_usr = String::from("s");
-                    break;
-                }
-                Key::Char('i') => {
-                    answer_usr = String::from("i");
-                    break;
-                }
-                Key::Char('e') => {
-                    answer_usr = String::from("e");
-                    break;
-                }
-                Key::Ctrl('c') => {
-                    return;
-                }
-                _ => {}
-            }
-            stdout.flush().unwrap();
-        }
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .with_prompt("Quelle est la réponse la plus élevée?")
+            .default(0)
+            .items(&selections[..])
+            .interact()
+            .unwrap();
 
         let answer = match first_operation
             .get_answer()
             .cmp(&second_operation.get_answer())
         {
-            Ordering::Less => String::from("i"),
-            Ordering::Greater => String::from("s"),
-            Ordering::Equal => String::from("e"),
+            Ordering::Less => String::from("Inférieur"),
+            Ordering::Greater => String::from("Supérieur"),
+            Ordering::Equal => String::from("Églale"),
         };
 
-        if answer_usr == answer {
+        if selections[selection] == answer {
             right_answer += 1;
         } else {
             wrong_answer += 1;
         }
 
         if start.elapsed() > Duration::from_secs(90) {
-            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 4));
+            clearscreen::clear().unwrap();
             println!("--- Vous avez fini le test ---");
             println!(
-                "{}Bonnes réponses: {}",
-                termion::cursor::Goto(1, 6),
+                "Bonnes réponses: {}",
                 right_answer
             );
             println!(
-                "{}Mauvaises réponses: {}",
-                termion::cursor::Goto(1, 7),
+                "Mauvaises réponses: {}",
                 wrong_answer
             );
             break;

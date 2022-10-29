@@ -22,12 +22,12 @@ fn main() {
 
     match number_to_start {
         1 => {
-            print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 2));
+            clearscreen::clear().unwrap();
             println!("-------------- Bienvenue dans le test d'aisance numérique --------------\n");
             println!("Une première opération est présentée. Calculatez mentalement la solution et rentrez-la.");
             println!("Un deuxième calcul est affiché sur un AUTRE écran.");
             println!("Et dans le troisième et dernier écran, indiquez laquelle des deux réponses est la plus ÉLEVÉE.");
-            println!("Le premier calcul (S), deuxième calcul (I), les deux réponses sont égales (E)");
+            println!("Le premier calcul (Supérieur), deuxième calcul (Inférieur), les deux réponses sont égales (Églale)");
             println!("DURÉE: 90s\n");
             pause_console!("Appuyez sur entrer pour commencer...");
 
