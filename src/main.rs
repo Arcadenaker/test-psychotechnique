@@ -30,6 +30,9 @@ fn main() {
 
             calculation_test::calculation_test();
         }
-        _ => return,
+        _ => {
+            println!("\nEn espérant vous revoir bientôt...");
+            return
+        },
     };
 }
