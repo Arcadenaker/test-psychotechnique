@@ -175,7 +175,6 @@ pub fn calculation_test() {
             "Églale",
         ];
 
-        stdout.execute(cursor::MoveTo(1, 5));
         let answer_usr = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Quelle est la réponse la plus élevée?")
             .default(0)
@@ -212,4 +211,5 @@ pub fn calculation_test() {
             break;
         }
     }
+    pause_console!("\nAppuyez sur enter pour quitter...");
 }
