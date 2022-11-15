@@ -6,12 +6,9 @@ mod calculation_test;
 fn main() {
     println!("\n----------- Test psychotechnique de l'armée belge -----------\n");
 
-    let aisence_num = "Commencer le test d'aisance numérique";
-    let memoire_mots = "Commencer le test de mémoire des mots";
-
     let tests = &[
-        aisence_num,
-        memoire_mots,
+        "Commencer le test d'aisance numérique",
+        "Commencer le test de mémoire des mots",
         "Quitter"
     ];
 
@@ -50,6 +47,7 @@ fn main() {
             println!("Mots: Pantalon | Tractopelle | Bangladesh");
             println!("Le premier mot (Pantalon) n'est pas un outil, le deuxième (Tractopelle) n'est pas un vêtement et le troisième (Bangladesh) est un pays.");
             println!("La réponse est donc 1.\n");
+            println!("DURÉE DU TEST: 90s\n");
             pause_console!("Appuyez sur entrer pour commencer...");
         },
         _ => {
