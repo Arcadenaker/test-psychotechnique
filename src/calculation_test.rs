@@ -3,7 +3,7 @@ use rand::Rng;
 use std::{cmp::Ordering,time::Duration, time::Instant};
 use dialoguer::{theme::ColorfulTheme, Select};
 use std::io::{stdout};
-use crossterm::{execute, cursor, ExecutableCommand};   
+use crossterm::{cursor, ExecutableCommand};   
 
 //Debug is usefull to compare calculations between them (equal, not equal)
 #[derive(Debug)]
@@ -142,9 +142,9 @@ pub fn calculation_test() {
 
         clearscreen::clear().unwrap();
 
-        stdout.execute(cursor::MoveTo(15, 10));
+        let _ = stdout.execute(cursor::MoveTo(15, 8));
         println!("      #{}", level);
-        stdout.execute(cursor::MoveTo(15, 11));
+        let _ = stdout.execute(cursor::MoveTo(15, 9));
         print!("[1]  ");
         let first_operation = new_calc(base);
         let mut second_operation: Calculation;
@@ -162,7 +162,7 @@ pub fn calculation_test() {
         clearscreen::clear().unwrap();
 
 
-        stdout.execute(cursor::MoveTo(15, 11));
+        let _ = stdout.execute(cursor::MoveTo(15, 9));
         print!("[2]  ");
         second_operation.show();
         pause_console!("Appuyez sur enter...");
@@ -175,6 +175,7 @@ pub fn calculation_test() {
             "Églale",
         ];
 
+        let _ = stdout.execute(cursor::MoveTo(0, 9));
         let answer_usr = Select::with_theme(&ColorfulTheme::default())
             .with_prompt("Quelle est la réponse la plus élevée?")
             .default(0)
